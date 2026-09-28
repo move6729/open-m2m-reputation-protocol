@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omrp-protocol.org/v1/schema.json",
+  "title": "OMRP_Sender_Attestation",
+  "type": "object",
+  "properties": {
+    "domain": {
+      "type": "string",
+      "format": "hostname",
+      "description": "The fully qualified domain name (FQDN) asserting transport identity."
+    },
+    "cryptographic_identity": {
+      "type": "object",
+      "properties": {
+        "dkim_selector": { "type": "string" },
+        "public_key_fingerprint_sha256": { 
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "key_inception_timestamp": { 
+          "type": "integer",
+          "description": "Unix epoch timestamp indicating key creation date."
+        }
+      },
+      "required": ["dkim_selector", "public_key_fingerprint_sha256", "key_inception_timestamp"]
+    },
+    "operational_telemetry": {
+      "type": "object",
+      "properties": {
+        "declared_daily_volume_limit": { "type": "integer" },
+        "abuse_contact_uri": { "type": "string", "format": "uri" },
+        "public_telemetry_ledger": { "type": "string", "format": "uri" }
+      },
+      "required": ["declared_daily_volume_limit", "abuse_contact_uri"]
+    }
+  },
+  "required": ["domain", "cryptographic_identity", "operational_telemetry"]
+}
